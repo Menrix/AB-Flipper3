@@ -20,9 +20,9 @@ I wanted to use my Flipper Zero as a page turner for my e-reader. The e-reader f
 Flipper, but the connection never completed: the standard Flipper Bluetooth remote always asks
 for a **PIN confirmation** while pairing, and an e-reader has no way to do that.
 
-So I built this small AB Shutter3 style app – with the help of **Claude** (Anthropic's AI
-assistant), which wrote most of the code together with me. It pairs the same way a real
-AB Shutter3 does: **without a PIN ("Just Works")**. Now I can turn pages with my Flipper –
+So I built this small AB Shutter3 style app. The idea, the functions, the design and the
+UI/UX are mine; the code was written with the help of **Claude** (Anthropic's AI assistant).
+It pairs the same way a real AB Shutter3 does: **without a PIN ("Just Works")**. Now I can turn pages with my Flipper –
 and take selfies with it, too.
 
 ## How it works
@@ -106,5 +106,5 @@ files to a new release.
 
 ## Credits
 
-Made by **Don_Key_Moustache**, built together with Claude (Anthropic).
+Idea, functions, design and UI/UX by **Don_Key_Moustache**, code written with the help of Claude (Anthropic).
 Licensed under the MIT License.
