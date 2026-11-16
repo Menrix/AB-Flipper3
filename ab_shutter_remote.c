@@ -25,7 +25,12 @@
 #include <storage/storage.h>
 #include <toolbox/saved_struct.h>
 #include <notification/notification_messages.h>
+// Firmware images (the dolphin) are available to apps on Momentum, but not on
+// the official firmware. Without them the waiting screen shows a Bluetooth sign.
+#if __has_include(<assets_icons.h>)
 #include <assets_icons.h>
+#define HAVE_FIRMWARE_DOLPHIN 1
+#endif
 
 #include "shutter_profile.h"
 #include "gfx.h"
@@ -371,8 +376,13 @@ static void draw_pair(Canvas* canvas) {
 }
 
 static void draw_waiting(Canvas* canvas) {
+#ifdef HAVE_FIRMWARE_DOLPHIN
     // Firmware image (59x54): drawn 1px high so it ends right above the tabs
     canvas_draw_icon(canvas, 0, -1, &I_DolphinWait_59x54);
+#else
+    // No firmware images available: big Bluetooth sign in the same spot
+    gfx_pat(canvas, 26, 20, &gfx_bt_big, ColorBlack);
+#endif
     const int x = 62;
     canvas_set_font(canvas, FontSecondary);
     gfx_pat_mid(canvas, x, 9, FontSecondary, &gfx_wait, ColorBlack);
