@@ -1,0 +1,14 @@
+App(
+    appid="ab_shutter_remote",
+    name="AB Shutter Remote",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="ab_shutter_remote_app",
+    requires=["gui", "bt"],
+    stack_size=2 * 1024,
+    fap_category="Bluetooth",
+    fap_icon="icon.png",
+    fap_libs=["ble_profile"],
+    fap_version="1.0",
+    fap_author="Don_Key_Moustache",
+    fap_description="Bluetooth remote like an AB Shutter3: turn pages on e-readers, take photos on phones. Pairs without PIN.",
+)
