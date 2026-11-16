@@ -1,0 +1,70 @@
+name: Build FAP
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: momentum
+            sdk-index-url: https://up.momentum-fw.dev/firmware/directory.json
+            sdk-channel: release
+          - name: official
+            sdk-index-url: https://update.flipperzero.one/firmware/directory.json
+            sdk-channel: release
+    name: Build (${{ matrix.name }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build with ufbt
+        uses: flipperdevices/flipperzero-ufbt-action@v0.1
+        id: build-app
+        with:
+          sdk-channel: ${{ matrix.sdk-channel }}
+          sdk-index-url: ${{ matrix.sdk-index-url }}
+
+      - name: Rename FAP
+        run: |
+          mkdir -p dist
+          for f in ${{ steps.build-app.outputs.fap-artifacts }}; do
+            cp "$f" "dist/$(basename "$f" .fap)-${{ matrix.name }}.fap"
+          done
+          ls -l dist
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ab_shutter_remote-${{ matrix.name }}
+          path: dist/*.fap
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: (github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')) && !cancelled()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download built FAPs
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Attach FAPs to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.fap
+          generate_release_notes: true
