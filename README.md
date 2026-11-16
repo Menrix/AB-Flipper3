@@ -29,10 +29,7 @@ and take selfies with it, too.
 
 ### First start: pair your device
 
-<p>
-  <img src="screenshots/1_pair.png" width="45%">
-  <img src="screenshots/2_waiting.png" width="45%">
-</p>
+<img src="screenshots/1_pair.png" width="45%">
 
 1. Start **AB Shutter Remote** (*Apps → Bluetooth*). Press **OK** to start pairing.
 2. On your device, search for Bluetooth remotes and select **AB Flipper**.
